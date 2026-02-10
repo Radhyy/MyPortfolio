@@ -53,15 +53,21 @@ export default function AboutPage() {
           {/* Education Items */}
           <div className="space-y-6">
             {/* SMK Telkom Sidoarjo */}
-            <div className="flex gap-6 p-6 rounded-2xl bg-gray-900/30 dark:bg-gray-800/30 hover:bg-gray-900/40 dark:hover:bg-gray-800/40 transition-all duration-300 border border-gray-700/30 dark:border-gray-600/30">
+            <div className="flex gap-6 p-6 rounded-2xl border border-gray-200 dark:border-gray-700/30 hover:border-gray-300 dark:hover:border-gray-600/50 transition-all duration-300">
               <div className="flex-shrink-0">
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center shadow-lg">
-                  <GraduationCap className="text-white" size={28} />
+                <div className="w-20 h-20 flex items-center justify-center overflow-hidden">
+                  <Image
+                    src="/school/LogoSmkTelkomSidoarjo.png"
+                    alt="SMK Telkom Sidoarjo"
+                    width={80}
+                    height={80}
+                    className="object-contain"
+                  />
                 </div>
               </div>
               <div className="flex-1">
-                <h3 className="text-xl font-bold mb-2">{t('smkTelkom')}</h3>
-                <p className="text-gray-400 dark:text-gray-400 mb-3">
+                <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-white">{t('smkTelkom')}</h3>
+                <p className="text-gray-600 dark:text-gray-400 mb-3">
                   {t('smkTelkomDegree')}
                 </p>
                 <div className="flex flex-wrap gap-3 text-sm text-gray-500 dark:text-gray-500">
@@ -73,15 +79,21 @@ export default function AboutPage() {
             </div>
 
             {/* MTSS Darul Hikmah */}
-            <div className="flex gap-6 p-6 rounded-2xl bg-gray-900/30 dark:bg-gray-800/30 hover:bg-gray-900/40 dark:hover:bg-gray-800/40 transition-all duration-300 border border-gray-700/30 dark:border-gray-600/30">
+            <div className="flex gap-6 p-6 rounded-2xl border border-gray-200 dark:border-gray-700/30 hover:border-gray-300 dark:hover:border-gray-600/50 transition-all duration-300">
               <div className="flex-shrink-0">
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center shadow-lg">
-                  <GraduationCap className="text-white" size={28} />
+                <div className="w-20 h-20 flex items-center justify-center overflow-hidden">
+                  <Image
+                    src="/school/DarulHikmah.png"
+                    alt="MTSS Darul Hikmah"
+                    width={80}
+                    height={80}
+                    className="object-contain"
+                  />
                 </div>
               </div>
               <div className="flex-1">
-                <h3 className="text-xl font-bold mb-2">{t('mtss')}</h3>
-                <p className="text-gray-400 dark:text-gray-400 mb-3">
+                <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-white">{t('mtss')}</h3>
+                <p className="text-gray-600 dark:text-gray-400 mb-3">
                   {t('mtssDegree')}
                 </p>
                 <div className="flex flex-wrap gap-3 text-sm text-gray-500 dark:text-gray-500">

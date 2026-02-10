@@ -6,6 +6,9 @@ import { supabase, type Message } from '@/lib/supabase';
 import { Send, LogOut, Loader2, CheckCircle } from 'lucide-react';
 import Image from 'next/image';
 
+// Disable static generation for this page
+export const dynamic = 'force-dynamic';
+
 export default function ChatRoomPage() {
   const { theme } = useTheme();
   const [messages, setMessages] = useState<Message[]>([]);
@@ -74,19 +77,21 @@ export default function ChatRoomPage() {
   };
 
   const handleGoogleSignIn = async () => {
+    const redirectUrl = typeof window !== 'undefined' ? `${window.location.origin}/chat-room` : '/chat-room';
     await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}/chat-room`,
+        redirectTo: redirectUrl,
       },
     });
   };
 
   const handleGitHubSignIn = async () => {
+    const redirectUrl = typeof window !== 'undefined' ? `${window.location.origin}/chat-room` : '/chat-room';
     await supabase.auth.signInWithOAuth({
       provider: 'github',
       options: {
-        redirectTo: `${window.location.origin}/chat-room`,
+        redirectTo: redirectUrl,
       },
     });
   };

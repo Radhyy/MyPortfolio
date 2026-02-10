@@ -11,6 +11,9 @@ import { ComposableMap, Geographies, Geography, Marker } from 'react-simple-maps
 import { AnimatedBeam } from '@/components/AnimatedBeam';
 import { cn } from '@/lib/utils';
 
+// Disable static generation for this page
+export const dynamic = 'force-dynamic';
+
 interface GithubData {
   totalContributions: number;
   thisWeek: number;

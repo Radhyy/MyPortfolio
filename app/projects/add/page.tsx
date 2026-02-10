@@ -6,6 +6,9 @@ import { useRouter } from 'next/navigation';
 import { useTheme } from '@/contexts/ThemeContext';
 import { X, Plus, Folder, Star, Lock } from 'lucide-react';
 
+// Disable static generation for this page
+export const dynamic = 'force-dynamic';
+
 export default function AddProjectPage() {
   const router = useRouter();
   const { theme } = useTheme();

@@ -77,21 +77,21 @@ export default function ChatRoomPage() {
   };
 
   const handleGoogleSignIn = async () => {
-    const redirectUrl = typeof window !== 'undefined' ? `${window.location.origin}/chat-room` : '/chat-room';
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || (typeof window !== 'undefined' ? window.location.origin : '');
     await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: redirectUrl,
+        redirectTo: `${baseUrl}/chat-room`,
       },
     });
   };
 
   const handleGitHubSignIn = async () => {
-    const redirectUrl = typeof window !== 'undefined' ? `${window.location.origin}/chat-room` : '/chat-room';
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || (typeof window !== 'undefined' ? window.location.origin : '');
     await supabase.auth.signInWithOAuth({
       provider: 'github',
       options: {
-        redirectTo: redirectUrl,
+        redirectTo: `${baseUrl}/chat-room`,
       },
     });
   };

@@ -60,7 +60,7 @@ export default function Sidebar() {
       )}
 
       {/* Sidebar */}
-      <aside className={`fixed left-0 top-0 h-screen w-[280px] lg:w-[380px] bg-white dark:bg-dark-card border-r border-gray-200 dark:border-gray-800 flex flex-col overflow-y-auto transition-transform duration-300 z-40 ${
+      <aside className={`fixed left-0 top-0 h-screen w-[260px] lg:w-[340px] bg-white dark:bg-dark-card border-r border-gray-200 dark:border-gray-800 flex flex-col overflow-y-auto transition-transform duration-300 z-40 ${
         isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
       }`}>
       {/* Profile Section */}

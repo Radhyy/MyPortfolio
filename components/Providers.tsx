@@ -12,7 +12,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         <ScrollProgress />
         <div className="flex min-h-screen bg-white dark:bg-dark-bg text-gray-900 dark:text-white transition-colors duration-300">
           <Sidebar />
-          <main className="flex-1 ml-0 lg:ml-[380px] transition-all duration-300">
+          <main className="flex-1 ml-0 lg:ml-[340px] transition-all duration-300">
             {children}
           </main>
         </div>

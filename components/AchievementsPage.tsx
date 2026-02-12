@@ -186,11 +186,65 @@ export default function AchievementsPage() {
       image: '/certificates/Wordpress Certivicates-compressed.jpg',
       type: 'Course',
       category: 'CMS'
+    },
+    {
+      id: 'AWS-S3-BASIC',
+      title: 'AWS S3 Basic Certificates',
+      issuer: 'Amazon Web Services',
+      date: 'October 2024',
+      image: '/certificates/Aws S3 Basic Certificates.jpg',
+      type: 'Professional',
+      category: 'Cloud'
+    },
+    {
+      id: 'WORDPRESS-FULLSITE',
+      title: 'Build a Full Website Using WordPress Certificates',
+      issuer: 'WordPress Training',
+      date: 'September 2024',
+      image: '/certificates/Build a Full Website Using Wordprees Certificates.jpg',
+      type: 'Course',
+      category: 'CMS'
+    },
+    {
+      id: 'GLIDE-APP',
+      title: 'Build App With Google Sheets On Glide Certificates',
+      issuer: 'Glide Academy',
+      date: 'August 2024',
+      image: '/certificates/Build App With Google Sheets On Glide Certificates.jpg',
+      type: 'Course',
+      category: 'No-Code'
+    },
+    {
+      id: 'GOOGLE-ADS',
+      title: 'Google Ads Certificates',
+      issuer: 'Google',
+      date: 'July 2024',
+      image: '/certificates/Google Ads Certificates.jpg',
+      type: 'Professional',
+      category: 'Marketing'
+    },
+    {
+      id: 'MS-EXCEL',
+      title: 'Microsoft Excel Certificates',
+      issuer: 'Microsoft',
+      date: 'June 2024',
+      image: '/certificates/Microsoft Excel Certificates.jpg',
+      type: 'Professional',
+      category: 'Productivity'
+    },
+    {
+      id: 'SEO-OPT',
+      title: 'SEO Optimization Certificates',
+      issuer: 'SEO Training Institute',
+      date: 'May 2024',
+      image: '/certificates/SEO Optimazion Certificates.jpg',
+      type: 'Course',
+      category: 'Marketing'
     }
   ];
 
   const types = ['All', 'Course', 'Professional', 'Competition', 'Training'];
-  const categories = ['All', 'Backend', 'Cloud', 'Informatics', 'Civics', 'History', 'AI/ML', 'Security', 'Logic', 'Web Development', 'CMS', 'Other'];
+  const categories = ['All', 'Backend', 'Cloud', 'Informatics', 'Civics', 'History', 'AI/ML', 'Security', 'Logic', 'Web Development', 'CMS', 'No-Code', 'Marketing', 'Productivity', 'Other'];
 
   const filteredCertificates = useMemo(() => {
     return certificates.filter(cert => {

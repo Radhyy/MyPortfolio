@@ -1,11 +1,10 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useTheme } from '@/contexts/ThemeContext';
-import { supabase, Project } from '@/lib/supabase';
+import { projects, Project } from '@/lib/projects';
 import { Search, X, ExternalLink, Github, Folder } from 'lucide-react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { 
   SiTypescript, SiJavascript, SiReact, SiNextdotjs, SiTailwindcss,
@@ -52,75 +51,19 @@ const techIcons: Record<string, React.ReactNode> = {
 export default function ProjectsPage() {
   const { t } = useLanguage();
   const { theme } = useTheme();
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [filteredProjects, setFilteredProjects] = useState<Project[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedStack, setSelectedStack] = useState<string>('');
-  const [loading, setLoading] = useState(true);
-  const [allStacks, setAllStacks] = useState<string[]>([]);
+  const allStacks = Array.from(new Set(projects.flatMap((project) => project.stacks))).sort();
 
-  // Fetch projects from Supabase
-  useEffect(() => {
-    async function fetchProjects() {
-      setLoading(true);
-      try {
-        const { data, error } = await supabase
-          .from('projects')
-          .select('*')
-          .eq('is_show', true)
-          .order('is_featured', { ascending: false })
-          .order('created_at', { ascending: false });
+  const filteredProjects = projects.filter((project) => {
+    const matchesSearch =
+      !searchQuery ||
+      project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      project.description.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesStack = !selectedStack || project.stacks.includes(selectedStack);
 
-        if (error) throw error;
-
-        setProjects(data || []);
-        
-        // Extract all unique stacks
-        const stacks = new Set<string>();
-        data?.forEach(project => {
-          project.stacks.forEach((stack: string) => stacks.add(stack));
-        });
-        setAllStacks(Array.from(stacks).sort());
-      } catch (error) {
-        console.error('Error fetching projects:', error);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchProjects();
-  }, []);
-
-  // Filter projects based on search and stack
-  useEffect(() => {
-    let filtered = projects;
-
-    // Search filter
-    if (searchQuery) {
-      filtered = filtered.filter(
-        project =>
-          project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          project.description.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }
-
-    // Stack filter
-    if (selectedStack) {
-      filtered = filtered.filter(project =>
-        project.stacks.includes(selectedStack)
-      );
-    }
-
-    setFilteredProjects(filtered);
-  }, [searchQuery, selectedStack, projects]);
-
-  // Get image URL for project
-  const getProjectImage = (project: Project) => {
-    if (project.image) {
-      return project.image;
-    }
-    return `https://via.placeholder.com/600x400/1f2937/ffffff?text=${encodeURIComponent(project.title)}`;
-  };
+    return matchesSearch && matchesStack;
+  });
 
   return (
     <div className="min-h-screen pt-20 lg:pt-16 p-8 lg:p-16">
@@ -184,31 +127,12 @@ export default function ProjectsPage() {
         </div>
 
         {/* Loading State */}
-        {loading && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[...Array(6)].map((_, i) => (
-              <div
-                key={i}
-                className={`rounded-2xl overflow-hidden ${
-                  theme === 'dark' ? 'bg-gray-800/30' : 'bg-gray-200/30'
-                } animate-pulse`}
-              >
-                <div className={`h-48 ${theme === 'dark' ? 'bg-gray-700/50' : 'bg-gray-300/50'}`} />
-                <div className="p-6 space-y-3">
-                  <div className={`h-6 ${theme === 'dark' ? 'bg-gray-700/50' : 'bg-gray-300/50'} rounded`} />
-                  <div className={`h-4 ${theme === 'dark' ? 'bg-gray-700/50' : 'bg-gray-300/50'} rounded w-3/4`} />
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-
         {/* Projects Grid */}
-        {!loading && filteredProjects.length > 0 && (
+        {filteredProjects.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredProjects.map((project) => (
               <Link
-                key={project.id}
+                key={project.slug}
                 href={`/projects/${project.slug}`}
                 className={`group cursor-pointer rounded-2xl overflow-hidden border ${
                   theme === 'dark'
@@ -218,19 +142,11 @@ export default function ProjectsPage() {
               >
                 {/* Project Image */}
                 <div className="relative h-48 overflow-hidden">
-                  {project.image ? (
-                    <img 
-                      src={project.image} 
-                      alt={project.title}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div className={`w-full h-full ${
-                      theme === 'dark' ? 'bg-gradient-to-br from-gray-700 to-gray-800' : 'bg-gradient-to-br from-gray-200 to-gray-300'
-                    } flex items-center justify-center`}>
-                      <Folder size={64} className={theme === 'dark' ? 'text-gray-600' : 'text-gray-400'} />
-                    </div>
-                  )}
+                  <img 
+                    src={project.image} 
+                    alt={project.title}
+                    className="w-full h-full object-cover"
+                  />
                   
                   {/* Featured Badge */}
                   {project.is_featured && (
@@ -294,7 +210,7 @@ export default function ProjectsPage() {
         )}
 
         {/* No Results */}
-        {!loading && filteredProjects.length === 0 && (
+        {filteredProjects.length === 0 && (
           <div className={`text-center py-16 ${
             theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
           }`}>

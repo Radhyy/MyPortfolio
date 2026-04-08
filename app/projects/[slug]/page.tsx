@@ -1,10 +1,10 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useTheme } from '@/contexts/ThemeContext';
-import { supabase, Project } from '@/lib/supabase';
+import { projects } from '@/lib/projects';
 import { ArrowLeft, ExternalLink, Github, Folder } from 'lucide-react';
 import { 
   SiTypescript, SiJavascript, SiReact, SiNextdotjs, SiTailwindcss,
@@ -52,47 +52,9 @@ export default function ProjectDetailPage() {
   const router = useRouter();
   const { t } = useLanguage();
   const { theme } = useTheme();
-  const [project, setProject] = useState<Project | null>(null);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    async function fetchProject() {
-      try {
-        const { data, error } = await supabase
-          .from('projects')
-          .select('*')
-          .eq('slug', params.slug)
-          .eq('is_show', true)
-          .single();
-
-        if (error) throw error;
-        setProject(data);
-      } catch (error) {
-        console.error('Error fetching project:', error);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    if (params.slug) {
-      fetchProject();
-    }
-  }, [params.slug]);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen pt-20 lg:pt-16 p-8 lg:p-16 flex items-center justify-center">
-        <div className="text-center">
-          <div className={`inline-block animate-spin rounded-full h-12 w-12 border-b-2 ${
-            theme === 'dark' ? 'border-orange-500' : 'border-orange-600'
-          }`} />
-          <p className={`mt-4 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
-            {t('loading')}
-          </p>
-        </div>
-      </div>
-    );
-  }
+  const slug = Array.isArray(params.slug) ? params.slug[0] : params.slug;
+  const project = projects.find((item) => item.slug === slug) || null;
 
   if (!project) {
     return (
